@@ -1,0 +1,6 @@
+{
+    "$schema": "../doc/endpoint.json",
+    "type": "GET",
+    "queryParams": {},
+    "headers": {}
+}

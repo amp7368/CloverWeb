@@ -1,0 +1,87 @@
+{
+    "name": "website",
+    "root": "apps/website",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "apps/website/src",
+    "projectType": "application",
+    "targets": {
+        "lint": {
+            "executor": "@nrwl/linter:eslint",
+            "outputs": ["{options.outputFile}"],
+            "options": {
+                "lintFilePatterns": ["apps/temp/**/*.{ts,tsx,js,jsx}"]
+            }
+        },
+        "build": {
+            "executor": "@nrwl/webpack:webpack",
+            "outputs": ["{options.outputPath}"],
+            "defaultConfiguration": "development",
+            "options": {
+                "compiler": "babel",
+                "outputPath": "dist/apps/website",
+                "index": "apps/website/src/index.html",
+                "baseHref": "/",
+                "main": "apps/website/src/main.tsx",
+                "tsConfig": "apps/website/tsconfig.app.json",
+                "assets": [
+                    "apps/website/src/favicon.ico",
+                    "apps/website/src/assets"
+                ],
+                "styles": [],
+                "scripts": [],
+                "isolatedConfig": true,
+                "webpackConfig": "apps/website/webpack.config.js"
+            },
+            "configurations": {
+                "development": {
+                    "fileReplacements": [
+                        {
+                            "replace": "apps/website/src/environments/environment.ts",
+                            "with": "apps/website/src/environments/environment.dev.ts"
+                        }
+                    ],
+                    "statsJson": true,
+                    "extractLicenses": false,
+                    "optimization": false,
+                    "sourceMap": true,
+                    "vendorChunk": true
+                },
+                "production": {
+                    "fileReplacements": [
+                        {
+                            "replace": "apps/website/src/environments/environment.ts",
+                            "with": "apps/website/src/environments/environment.prod.ts"
+                        }
+                    ],
+                    "optimization": true,
+                    "outputHashing": "all",
+                    "sourceMap": false,
+                    "namedChunks": false,
+                    "extractLicenses": true,
+                    "vendorChunk": false
+                }
+            }
+        },
+        "serve": {
+            "executor": "@nrwl/webpack:dev-server",
+            "defaultConfiguration": "development",
+            "options": {
+                "buildTarget": "website:build",
+                "hmr": true,
+                "host": "192.168.1.119",
+                "port": 4200,
+                "allowedHosts": "all"
+            },
+            "configurations": {
+                "development": {
+                    "buildTarget": "website:build:development"
+                },
+                "production": {
+                    "buildTarget": "website:build:production",
+                    "hmr": false
+                }
+            }
+        }
+    },
+    "tags": []
+}

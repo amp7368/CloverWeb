@@ -9,12 +9,37 @@ import {
     useTheme,
 } from '@mui/material';
 import { DateField } from '@mui/x-date-pickers';
-import { ReactNode } from 'react';
-import { Controller, FormProvider, useForm } from 'react-hook-form';
 import dayjs from 'dayjs';
+import { ReactNode } from 'react';
+import {
+    Controller,
+    FormProvider,
+    useForm,
+    UseFormReturn,
+} from 'react-hook-form';
+
+import { FieldPlayerUsername } from '../../../components/FieldPlayerUsername';
 import { PlayerFormTimeResolution } from './PlayerFormTimeResolution';
+import { playerPageSubmit } from './playerPageSubmit';
 import { PlayerFormSummary } from './summary/PlayerFormSummary';
 
+interface PlayerPageFormWrapperProps {
+    methods: UseFormReturn<PlayerRequestForm>;
+    children: ReactNode[];
+}
+function PlayerPageFormWrapper(props: PlayerPageFormWrapperProps) {
+    return (
+        <FormProvider {...props.methods}>
+            <form onSubmit={props.methods.handleSubmit(playerPageSubmit)}>
+                <AppPaper padding={4} sx={{ margin: 5 }}>
+                    <Stack alignItems="flex-start" spacing={2}>
+                        {props.children}
+                    </Stack>
+                </AppPaper>
+            </form>
+        </FormProvider>
+    );
+}
 export function PlayerPageForm() {
     const defaultValues: Partial<PlayerRequestForm> = {
         player: 'appleptr16',
@@ -22,60 +47,43 @@ export function PlayerPageForm() {
         timeResolution: 'DAY',
         termsAfter: 100,
     };
-    const methods = useForm<PlayerRequestForm>({ defaultValues });
-    const { control } = methods;
+    const methods = useForm<PlayerRequestForm>({
+        defaultValues,
+        criteriaMode: 'all',
+    });
+    const control = methods.control;
     return (
-        <FormProvider {...methods}>
-            <AppPaper padding={4} sx={{ margin: 5 }}>
-                <Stack alignItems="flex-start" spacing={2}>
-                    <PlayerFormSummary />
-                    <Controller
-                        name="player"
-                        control={control}
-                        render={({ field }) => (
-                            <TextField
-                                {...field}
-                                label="player"
-                                helperText="The player to view"
-                            />
-                        )}
+        <PlayerPageFormWrapper methods={methods}>
+            <PlayerFormSummary />
+            <Divider flexItem orientation="horizontal" />
+            <FieldPlayerUsername />
+            <Divider flexItem orientation="horizontal" />
+            <Controller
+                name="start"
+                control={control}
+                render={({ field }) => (
+                    <DateField {...field} disableFuture label="start" />
+                )}
+            />
+            <Divider flexItem orientation="horizontal" />
+            <Controller
+                name="termsAfter"
+                control={control}
+                render={({ field }) => (
+                    <TextField
+                        {...field}
+                        label="termsAfter"
+                        helperText="The number of {Time Resolution} to include in the result"
                     />
-                    <Divider flexItem orientation="horizontal" />
-                    <Controller
-                        name="start"
-                        control={control}
-                        render={({ field }) => {
-                            console.log(field);
-                            return (
-                                <DateField
-                                    {...field}
-                                    disableFuture
-                                    label="start"
-                                />
-                            );
-                        }}
-                    />
-                    <Divider flexItem orientation="horizontal" />
-                    <Controller
-                        name="termsAfter"
-                        control={control}
-                        render={({ field }) => (
-                            <TextField
-                                {...field}
-                                label="termsAfter"
-                                helperText="The number of {Time Resolution} to include in the result"
-                            />
-                        )}
-                    />
-                    <PlayerFormTimeResolution />
-                    <CoolButton>
-                        <AppTypography variant="h6" color="text.secondary">
-                            Run
-                        </AppTypography>
-                    </CoolButton>
-                </Stack>
-            </AppPaper>
-        </FormProvider>
+                )}
+            />
+            <PlayerFormTimeResolution />
+            <CoolButton buttonProps={{ type: 'submit' }}>
+                <AppTypography variant="h6" color="text.secondary">
+                    Run
+                </AppTypography>
+            </CoolButton>
+        </PlayerPageFormWrapper>
     );
 }
 interface CoolButtonProps {

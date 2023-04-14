@@ -17,30 +17,29 @@ export function FormResultVariable(props: PlayerFormSummaryVariableProps) {
 
     return (
         <Stack alignItems="flex-end" direction="row">
-            <PlayerFormSummaryText color="text.primary">
-                {props.prepend}
-            </PlayerFormSummaryText>
-            <PlayerFormSummaryText
-                sx={{ textDecorationLine: 'underline' }}
-                color="text.primary"
-            >
+            <PlayerFormSummaryText>{props.prepend}</PlayerFormSummaryText>
+            <PlayerFormSummaryText sx={{ textDecorationLine: 'underline' }}>
                 {value}
             </PlayerFormSummaryText>
             <PlayerFormSummaryText>{props.append}</PlayerFormSummaryText>
-            <Stack
-                marginLeft="1px"
-                height="100%"
-                direction="row"
-                alignItems="center"
+        </Stack>
+    );
+}
+function FormResultVariableName(props: { name: string }) {
+    return (
+        <Stack
+            marginLeft="1px"
+            height="100%"
+            direction="row"
+            alignItems="center"
+        >
+            <AppTypography
+                sx={{ fontStyle: 'italic' }}
+                color="text.primary"
+                variant="subtitle2"
             >
-                <AppTypography
-                    sx={{ fontStyle: 'italic' }}
-                    color="text.primary"
-                    variant="subtitle2"
-                >
-                    ({props.name})
-                </AppTypography>
-            </Stack>
+                ({props.name})
+            </AppTypography>
         </Stack>
     );
 }

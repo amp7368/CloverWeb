@@ -1,9 +1,8 @@
 import { RequestBuilder, RequestMethod } from './RequestBuilder';
-import { environment } from '../environments/environment.dev';
 
 export class AppQuery {
     request(url: string): RequestBuilder {
-        return new RequestBuilder(`${environment.apiUrl}/${url}`);
+        return new RequestBuilder(url);
     }
     get(url: string): RequestBuilder {
         return this.request(url).setMethod(RequestMethod.Get);

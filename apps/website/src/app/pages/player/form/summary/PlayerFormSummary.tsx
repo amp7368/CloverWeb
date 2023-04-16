@@ -1,10 +1,11 @@
 import { addTimeResolution, PlayerRequestForm } from '@app/api';
 import { Card, Stack } from '@mui/material';
+import { AppDateFormat } from 'apps/website/src/app/global/dateFormat';
+import { Dayjs } from 'dayjs';
 import { ReactNode } from 'react';
 import { useWatch } from 'react-hook-form';
 
 import { PlayerFormSummaryText } from './PlayerFormSummaryUtil';
-import { Dayjs } from 'dayjs';
 import {
     FormResultVariable,
     PlayerFormSummaryRow,
@@ -17,10 +18,10 @@ export function PlayerFormSummaryWrapper(props: { children: ReactNode[] }) {
         </Card>
     );
 }
-const dateFormat = 'MM/DD/YYYY';
 export function PlayerFormSummary() {
     const values = useWatch<PlayerRequestForm>();
     const start: Dayjs | undefined = values.start as Dayjs | undefined;
+    const dateFormat = AppDateFormat.day;
     return (
         <PlayerFormSummaryWrapper>
             <PlayerFormSummaryRow>

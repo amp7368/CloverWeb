@@ -1,5 +1,6 @@
 import { AppException, AppResponse } from '@app/api';
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
+import { environment } from '../../environments/environment';
 
 export enum RequestMethod {
     Get = 'get',
@@ -78,13 +79,13 @@ export class RequestBuilder {
     }
 
     private buildConfig(): AxiosRequestConfig {
-        const config = {
+        return {
+            ...environment.extraAxiosConfig,
             method: this.requestMethod,
             url: this.buildUrl(),
             data: this.body ?? null,
             ...this.configData,
         };
-        return config;
     }
     private buildUrl(): string {
         let url: string = this.urlField.join('/');

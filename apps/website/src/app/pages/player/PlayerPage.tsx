@@ -1,7 +1,7 @@
 import { Stack } from '@mui/material';
 
 import { PlayerPageForm } from './form/PlayerPageForm';
-import { PlayerPageResult } from './PlayerPageResult';
+import { PlayerPageResult } from './result/PlayerPageResult';
 
 export function PlayerPage() {
     return (

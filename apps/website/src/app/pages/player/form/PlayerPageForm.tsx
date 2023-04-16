@@ -42,8 +42,8 @@ function PlayerPageFormWrapper(props: PlayerPageFormWrapperProps) {
 }
 export function PlayerPageForm() {
     const defaultValues: Partial<PlayerRequestForm> = {
-        player: 'appleptr16',
-        start: dayjs().subtract(2, 'week'),
+        player: 'Blabbering',
+        start: dayjs().subtract(100, 'day'),
         timeResolution: 'DAY',
         termsAfter: 100,
     };

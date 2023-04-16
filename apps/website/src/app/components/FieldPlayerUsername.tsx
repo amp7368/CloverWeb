@@ -4,6 +4,7 @@ import { useCallback, useEffect } from 'react';
 import { Controller, useFormContext, useWatch } from 'react-hook-form';
 
 import { getPlayerUUID, usePlayerUUIDList } from '../elf/uuid/PlayerUUID.store';
+import { requestPlayerUUID } from '../elf/uuid/PlayerUUID.request';
 
 const usernameRegex = /^\w+$/;
 export function FieldPlayerUsername() {
@@ -19,12 +20,14 @@ export function FieldPlayerUsername() {
     const required = true;
     const onChange = useCallback(
         (event: unknown, value: string | null) => {
-            if (value)
+            if (value) {
                 setValue('player', value, {
                     shouldDirty: true,
                     shouldValidate: true,
                     shouldTouch: true,
                 });
+                requestPlayerUUID(value);
+            }
         },
         [setValue]
     );

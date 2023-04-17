@@ -1,19 +1,28 @@
-import { Stack } from '@mui/material';
+import { Stack, Box, useTheme } from '@mui/material';
 
 import { PlayerPageForm } from './form/PlayerPageForm';
-import { PlayerPageResult } from './result/PlayerPageResult';
+import { PlayerTermResult } from './term/PlayerTermResult';
+import { ControlDrawer, Header } from '@app/ui';
+import { PlayerRaidResult } from './raid/PlayerRaidResult';
 
 export function PlayerPage() {
+    const sidebarColor = useTheme().palette.background.sidebar;
+    const appbarHeight = '2.5rem';
+    const drawerWidth = '25rem';
     return (
-        <Stack
-            width="100%"
-            padding={5}
-            direction="row"
-            flexWrap="wrap"
-            justifyContent="flex-start"
-        >
-            <PlayerPageForm />
-            <PlayerPageResult />
-        </Stack>
+        <>
+            <ControlDrawer width={drawerWidth} bgcolor={sidebarColor}>
+                <PlayerPageForm />
+            </ControlDrawer>
+            <Stack
+                marginLeft={drawerWidth}
+                padding={2}
+                marginTop={appbarHeight}
+                spacing={2}
+            >
+                <PlayerTermResult />
+                <PlayerRaidResult />
+            </Stack>
+        </>
     );
 }

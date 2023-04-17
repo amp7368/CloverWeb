@@ -6,25 +6,32 @@ import { ReactNode } from 'react';
 
 import { AppDateFormat } from '../../../global/dateFormat';
 
-export type PlayerTermSnapshotProps = PlaySessionSnapshot & {
-    title: string;
+export type PlayerSnapshotProps<T> = {
+    title?: string;
+    isStart?: boolean;
     date: Date;
+    data: T;
+    mapData?: (data: T) => [string, ReactNode][];
 };
-export function PlayerTermSnapshot({
-    title,
-    date,
-    ...props
-}: PlayerTermSnapshotProps) {
+export function PlayerSnapshot<T extends Object>(
+    props: PlayerSnapshotProps<T>
+) {
     const dateFormat = AppDateFormat.day;
+    let title: string;
+    if (props.title) title = props.title;
+    else {
+        title = props.isStart ? 'Start' : 'End';
+    }
+    const mapData = props.mapData ?? ((data: T) => Object.entries(data));
     return (
-        <Stack margin={4} spacing={1} alignItems="center">
-            <AppTypography variant="h4">{title}</AppTypography>
+        <Stack margin={2} alignItems="center">
+            <AppTypography variant="h5">{title}</AppTypography>
             <Card sx={{ padding: 3 }}>
                 <Stack>
-                    <AppTypography variant="h4">
-                        {dayjs(date).format(dateFormat)}
+                    <AppTypography variant="h5">
+                        {dayjs(props.date).format(dateFormat)}
                     </AppTypography>
-                    {Object.entries(props).map(([name, value]) => (
+                    {mapData(props.data).map(([name, value]) => (
                         <TermSnapshotVariable
                             key={name}
                             name={name}
@@ -43,7 +50,9 @@ interface TermSnapshotVariableProps {
 export function TermSnapshotVariable(props: TermSnapshotVariableProps) {
     return (
         <Stack direction="row" spacing={1} justifyContent="space-between">
-            <AppTypography variant="h5">{props.name}</AppTypography>
+            <AppTypography variant="h5" noWrap>
+                {props.name}
+            </AppTypography>
             <AppTypography variant="h5">{props.value}</AppTypography>
         </Stack>
     );

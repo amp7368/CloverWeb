@@ -1,4 +1,8 @@
-import { PlayerRequest, PlayerTermsResponse } from '@app/api';
+import {
+    PlayerRaidResponse,
+    PlayerRequest,
+    PlayerTermsResponse,
+} from '@app/api';
 import { createStore, setProps, withProps } from '@ngneat/elf';
 import { map, Observable } from 'rxjs';
 
@@ -11,11 +15,20 @@ export interface UI {
             result?: PlayerTermsResponse;
             request?: PlayerRequest;
         };
+        raid: {
+            result?: PlayerRaidResponse;
+            request?: PlayerRequest;
+        };
     };
 }
 const store = createStore(
     { name: 'ui' },
-    withProps<UI>({ player: { term: {} } })
+    withProps<UI>({
+        player: {
+            term: {},
+            raid: {},
+        },
+    })
 );
 persistStore(store, { isTemp: true });
 

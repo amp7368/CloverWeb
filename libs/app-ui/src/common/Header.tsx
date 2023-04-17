@@ -32,7 +32,7 @@ export function Header(props: HeaderProps) {
     return (
         <Stack marginBottom={3}>
             <AppBar
-                position="static"
+                position="fixed"
                 sx={{
                     height: '4rem',
                     bgcolor: props.bgcolor,

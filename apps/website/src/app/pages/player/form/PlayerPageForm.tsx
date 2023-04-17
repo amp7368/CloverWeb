@@ -1,5 +1,5 @@
 import { PlayerRequestForm } from '@app/api';
-import { AppPaper, AppTypography } from '@app/ui';
+import { AppTypography } from '@app/ui';
 import {
     Button,
     ButtonProps,
@@ -31,11 +31,9 @@ function PlayerPageFormWrapper(props: PlayerPageFormWrapperProps) {
     return (
         <FormProvider {...props.methods}>
             <form onSubmit={props.methods.handleSubmit(playerPageSubmit)}>
-                <AppPaper padding={4} sx={{ margin: 5 }}>
-                    <Stack alignItems="flex-start" spacing={2}>
-                        {props.children}
-                    </Stack>
-                </AppPaper>
+                <Stack alignItems="flex-start" spacing={2}>
+                    {props.children}
+                </Stack>
             </form>
         </FormProvider>
     );

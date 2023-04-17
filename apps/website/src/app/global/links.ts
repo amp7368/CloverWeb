@@ -18,4 +18,8 @@ export const links = {
         url: () => `${base_url_v1}/player/term`,
         debounce: 2000,
     },
+    playerRaid: {
+        url: () => `${base_url_v1}/character/raid`,
+        debounce: 2000,
+    },
 };

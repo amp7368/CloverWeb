@@ -8,7 +8,11 @@ export const defaultThemeOptions: ThemeOptions = {
         secondary: {
             main: '#F27405',
         },
-        background: { default: '#014040', paper: '#BBBBBB' },
+        background: {
+            default: '#014040',
+            paper: '#BBBBBB',
+            sidebar: '#a5b1a5',
+        },
         text: {
             primary: '#000000',
             secondary: '#000000',
@@ -23,6 +27,3 @@ export const defaultTheme = createTheme(defaultThemeOptions);
 
 export const headerColor = '#689F38';
 defaultTheme.palette.augmentColor({ color: { main: headerColor } });
-// const element = document.getElementById('root');
-// const color = defaultTheme.palette.background.default;
-// if (element != null) element.style.backgroundColor = color;

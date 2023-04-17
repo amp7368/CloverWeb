@@ -1,15 +1,22 @@
-import { PlaySessionTerm, PlayerTermsResponse } from '@app/api';
-import { useTheme } from '@mui/material';
+import {
+    lowerCaseT,
+    PlayerTermsResponse,
+    PlaySessionSnapshot,
+    PlaySessionTerm,
+    TimeResolution,
+} from '@app/api';
 import { ChartData, ChartDataset, ChartOptions } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 
 export interface PlayerTermChartProps {
     result: PlayerTermsResponse;
     playerFirstRecorded: boolean;
+    unit: TimeResolution;
+    showField: keyof PlaySessionSnapshot;
 }
 export function PlayerTermChart(props: PlayerTermChartProps) {
     const allData: ChartData<'bar', PlaySessionTerm[]> = {
-        datasets: datasets(props.result, props.playerFirstRecorded),
+        datasets: datasets(props),
     };
     const options: ChartOptions<'bar'> = {
         scales: {
@@ -18,37 +25,33 @@ export function PlayerTermChart(props: PlayerTermChartProps) {
                 type: 'time',
                 bounds: 'data',
                 time: {
-                    tooltipFormat: 'll HH:mm',
-                    unit: 'day',
-                    displayFormats: {
-                        day: 'MM/DD/YYYY',
-                    },
+                    unit: lowerCaseT(props.unit),
                 },
             },
         },
     };
-    const color = useTheme().palette.text.primary;
     return <Bar height="100vh" options={options} data={allData} />;
 }
 
 type Dataset = ChartDataset<'bar', PlaySessionTerm[]>;
-function datasets(result: PlayerTermsResponse, cutData: boolean): Dataset[] {
+function datasets(props: PlayerTermChartProps): Dataset[] {
     let data: PlaySessionTerm[];
 
-    if (cutData) {
-        data = [...result.terms];
+    if (props.playerFirstRecorded) {
+        data = [...props.result.terms];
         data.shift();
-    } else data = result.terms;
+    } else data = props.result.terms;
 
     const datasets: Dataset[] = [
         {
-            label: 'Playtime',
+            label: props.showField,
             data,
             parsing: {
-                yAxisKey: 'playtimeDelta',
+                yAxisKey: `${props.showField}Delta`,
                 xAxisKey: 'retrieved',
             },
         },
     ];
+    console.log(data);
     return datasets;
 }

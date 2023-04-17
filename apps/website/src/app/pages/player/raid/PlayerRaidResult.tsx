@@ -1,4 +1,5 @@
 import { PlayerRaidSnapshot } from '@app/api';
+import { useState } from 'react';
 
 import { useUI } from '../../../elf/player/PlayerUI.store';
 import { PlayerSnapshot } from '../base/PlayerSnapshot';
@@ -8,7 +9,6 @@ import { RaidChart } from './RaidChart';
 
 export function PlayerRaidResult() {
     const { result, request } = useUI('player').raid;
-
     if (!result || !request) {
         return <ResultSectionWrapper />;
     }
@@ -18,6 +18,7 @@ export function PlayerRaidResult() {
             player={request.player}
             chart={
                 <RaidChart
+                    unit={request.timeResolution}
                     playerFirstRecorded={
                         result.startingSnapshot.total.raidCount == 0
                     }

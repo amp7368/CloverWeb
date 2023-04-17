@@ -1,10 +1,17 @@
-import { PlayerRaidResponse, PlayerRaidTerm, raidNameValues } from '@app/api';
+import {
+    PlayerRaidResponse,
+    PlayerRaidTerm,
+    TimeResolution,
+    lowerCaseT,
+    raidNameValues,
+} from '@app/api';
 import { ChartData, ChartDataset, ChartOptions } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 
 export interface RaidChartProps {
     result: PlayerRaidResponse;
     playerFirstRecorded: boolean;
+    unit: TimeResolution;
 }
 export function RaidChart(props: RaidChartProps) {
     const allData: ChartData<'bar', PlayerRaidTerm[]> = {
@@ -18,11 +25,7 @@ export function RaidChart(props: RaidChartProps) {
                 type: 'time',
                 bounds: 'ticks',
                 time: {
-                    tooltipFormat: 'll HH:mm',
-                    unit: 'day',
-                    displayFormats: {
-                        day: 'MM/DD/YYYY',
-                    },
+                    unit: lowerCaseT(props.unit),
                 },
             },
         },

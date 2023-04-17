@@ -13,6 +13,13 @@ export interface PlaySessionSnapshot {
     mobsKilled: number;
     totalProfLevel: number;
 }
+export const playerTermKeys: (keyof PlaySessionSnapshot)[] = [
+    'playtime',
+    'combat',
+    'itemsIdentified',
+    'mobsKilled',
+    'totalProfLevel',
+];
 export interface PlayerTermsResponse {
     requestedStart: Date;
     requestedEnd: Date;

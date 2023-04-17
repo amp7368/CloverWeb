@@ -8,9 +8,10 @@ import { ResultSectionWrapper } from './ResultSectionWrapper';
 export interface ResultSectionProps {
     title: string;
     player: string;
-    chart: ReactNode;
+    controller?: ReactNode;
     startSnapshot: ReactNode;
     endingSnapshot: ReactNode;
+    chart: ReactNode;
 }
 export function ResultSection(props: ResultSectionProps) {
     return (
@@ -21,6 +22,7 @@ export function ResultSection(props: ResultSectionProps) {
             </Stack>
             <Stack alignItems="center">
                 <PlayerSnapshotSection
+                    controller={props.controller}
                     start={props.startSnapshot}
                     end={props.endingSnapshot}
                 />
@@ -31,6 +33,7 @@ export function ResultSection(props: ResultSectionProps) {
 }
 
 interface PlayerSnapshotSectionProps {
+    controller?: ReactNode;
     start: ReactNode;
     end: ReactNode;
 }
@@ -41,6 +44,7 @@ function PlayerSnapshotSection(props: PlayerSnapshotSectionProps) {
             justifyContent="space-evenly"
             alignItems="center"
         >
+            {props.controller}
             {props.start}
             <ArrowForward sx={{ width: '7.5rem', height: '7.5rem' }} />
             {props.end}

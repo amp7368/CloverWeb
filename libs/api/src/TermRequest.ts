@@ -20,8 +20,8 @@ export function addTimeResolution(
     termsAfter?: number
 ): Dayjs {
     if (!start || !timeResolution || !termsAfter) return dayjs();
-    return start.add(termsAfter, lowerCase(timeResolution));
+    return start.add(termsAfter, lowerCaseT(timeResolution));
 }
-function lowerCase<T extends string>(val: T): Lowercase<T> {
+export function lowerCaseT<T extends string>(val: T): Lowercase<T> {
     return val.toLowerCase() as Lowercase<T>;
 }
